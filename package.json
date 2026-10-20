@@ -1,0 +1,26 @@
+{
+  "name": "ps9-blood-bank-management",
+  "version": "1.0.0",
+  "description": "PS9: Blood Bank Donor & Request Management System (MERN Stack)",
+  "scripts": {
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue,magenta\" \"npm run server\" \"npm run client\"",
+    "start": "concurrently -n \"SERVER,CLIENT\" -c \"blue,magenta\" \"npm run server\" \"npm run client\"",
+    "server": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "seed": "npm --prefix server run seed",
+    "server-install": "npm --prefix server install",
+    "client-install": "npm --prefix client install",
+    "install-all": "npm --prefix server install && npm --prefix client install"
+  },
+  "keywords": [
+    "mern",
+    "blood-bank",
+    "react",
+    "express",
+    "mongodb",
+    "nodejs"
+  ],
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  }
+}
