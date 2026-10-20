@@ -3,10 +3,12 @@
 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 
-// Load environment variables from .env file
+// Load environment variables from server/.env or root .env
+dotenv.config({ path: path.join(__dirname, '.env') });
 dotenv.config();
 
 // Connect to MongoDB database
@@ -28,8 +30,20 @@ app.use('/api/dashboard', require('./routes/dashboardRoutes'));
 
 // Health check root endpoint
 app.get('/', (req, res) => {
+  const mongoose = require('mongoose');
   res.json({
-    message: '🩸 Blood Bank Donor & Request Management System API is running smoothly',
+    status: 'healthy',
+    message: '🩸 Blood Bank Donor & Request Management System API is running',
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    timestamp: new Date().toISOString(),
+  });
+});
+
+app.get('/health', (req, res) => {
+  const mongoose = require('mongoose');
+  res.status(200).json({
+    status: 'UP',
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
     timestamp: new Date().toISOString(),
   });
 });
@@ -43,7 +57,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
